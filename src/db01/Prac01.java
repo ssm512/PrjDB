@@ -12,7 +12,7 @@ public class Prac01 {
 	private	static	String	dburl	=	"jdbc:oracle:thin:@127.0.0.1:1521:xe";
 	private	static	String	dbuid	=	"hr";
 	private	static	String	dbpwd	=	"1234";
-	
+	// 위 4줄만 바꾸어 주면 oracle db에서 다른 db를 사용할 수 있음
 	public static void main(String[] args) throws ClassNotFoundException, SQLException {
 		// hr 스키마에서 부서명, 직원이름, 전화번호 출력
 		Class.forName(driver); 
