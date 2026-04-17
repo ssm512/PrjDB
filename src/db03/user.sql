@@ -24,3 +24,14 @@ INSERT INTO TUSER VALUES ('cd123', '다나', 'dana@naver.com') ;
 INSERT INTO TUSER VALUES ('g2asd', '라나', 'lana@naver.com') ;
 INSERT INTO TUSER VALUES ('xyz12', '마나', 'mana@naver.com') ;
 COMMIT;
+
+-- 회원 목록
+SELECT      * FROM        TUSER;
+
+SELECT      * FROM          TUSER WHERE       USERID = 'ab12';
+
+UPDATE  TUSER SET email = 'SKY1@naver.com' WHERE   userid = 'a1';
+UPDATE  TUSER SET username = 'sky5', email = 'sky5@naver.com' WHERE   userid = 'sea';
+rollback;
+
+DELETE FROM TUSER WHERE UPPER(userid) = '';
