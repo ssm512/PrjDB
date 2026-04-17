@@ -34,8 +34,8 @@ public class TestTuser {
 			System.out.println("선택 : ");
 			String			choice		=	in.nextLine();
 			TUserDTO		tuser		= null;
-			int				aftcnt      ;
-			String			upid		;
+			int				aftcnt      = 0;
+			
 			switch (choice) {
 			case	"1": // 회원목록 
 				ArrayList<TUserDTO>	userList	=	getTUserList(); // userList는 길이가 정해지지않은 arraylist이고, 그안에는 TUserDTO type이 들어가는 거임 
@@ -53,8 +53,16 @@ public class TestTuser {
 				aftcnt		=	addTUser(tuser);
 				System.out.println(aftcnt + "건 저장되었습니다.");
 				break; 
-			case	"4": // 회원수정
+			case	"4": // 회원수정 
+				System.out.println("수정할 아이디를 입력하세요");
+				String		orgUserid	=	in.nextLine(); // 검색할 데이터, 변경대상X
+				System.out.println("수정할 내용을 입력하세요");
+				tuser			=	inputUpdateData(); // 수정할 데이터
 				
+				aftcnt			=	updateTUser(orgUserid, tuser);
+				System.out.println(aftcnt + "건 삭제되었습니다.");
+				System.out.println("Press Enter Key..");
+				in.nextLine();
 				break; 
 			case	"5": // 회원삭제
 				System.out.println("삭제할 아이디를 입력하세요 : ");
@@ -71,8 +79,14 @@ public class TestTuser {
 		
 
 	} // main end
+	//-----------------------------------------------------------------------
+	
+	
+	
 
 	
+	
+	//-----------------------------------------------------------------------
 	// 1. 목록 조회 db에서
 	private static ArrayList<TUserDTO> getTUserList() throws ClassNotFoundException, SQLException {
 		Class.forName(driver);
@@ -144,13 +158,32 @@ public class TestTuser {
 		return			aftcnt;
 	} // addTUser() end
 	
+	// 4. 회원수정
+	private static int updateTUser(String orgUserid, TUserDTO tuser) throws ClassNotFoundException, SQLException {
+		Class.forName(driver);
+		Connection			conn		=	DriverManager.getConnection(dburl, dbuid, dbpwd);
+		
+		String				sql			= "";
+		sql 							+= " UPDATE TUSER SET username = ? , email = ? WHERE userid = ? ";
+		PreparedStatement 	pstmt		= conn.prepareStatement(sql);	
+		pstmt.setString(1, tuser.getUsername());
+		pstmt.setString(2, tuser.getEmail());
+		pstmt.setString(3, orgUserid);
+		int					aftcnt		= pstmt.executeUpdate();
+				
+		pstmt.close();
+		conn.close();
+		
+		return			aftcnt;
+	} //updateTUser() end
+	
 	// 5. 회원 삭제
 	private static int deleteUser(String	did) throws ClassNotFoundException, SQLException {
 		Class.forName(driver);
 		Connection			conn		=	DriverManager.getConnection(dburl, dbuid, dbpwd);
 		
 		String				sql			= "";
-		sql 							+= "DELETE FROM TUSER WHERE UPPER(userid) = (?) ";
+		sql 							+= "DELETE FROM TUSER WHERE UPPER (userid) = ? ";
 		PreparedStatement 	pstmt		= conn.prepareStatement(sql);	
 		pstmt.setString(1, did.toUpperCase());
 		int					aftcnt		= pstmt.executeUpdate();
@@ -172,6 +205,18 @@ public class TestTuser {
 		TUserDTO	tuser		=	new	TUserDTO(userid, username, email);
 		return		tuser;
 	} //inputData() end
+	
+	// 수정할 데이터를 입력받는다
+	private static TUserDTO inputUpdateData() {
+		System.out.println("이름 : ");
+		String		username	=	in.nextLine();
+		System.out.println("이메일 : ");
+		String		email		=	in.nextLine();
+		TUserDTO	tuser		=	new	TUserDTO( username, email ); // 생성자를 추가해줌, DTO는 모든 변수를 다 받을 필요는 없음
+		// 실제로 많이 씀
+		return		tuser;
+	} // inputUpdateData() end
+
 	
 	// TUser한줄을 출력한다
 	private static void display(TUserDTO tuser) {

@@ -16,6 +16,11 @@ public class TUserDTO { // oracle select한걸 들고와서 사용하기 위해 
 		this.username = username;
 		this.email = email;
 	}
+	public TUserDTO(String username, String email) { // 4.회원정보 수정용 생성자 추가, 생성자 overloading
+		this.username = username;
+		this.email = email;
+	}
+	
 	//Getter Setter
 	public String getUserid() {
 		return userid;

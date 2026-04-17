@@ -35,7 +35,7 @@ public class TestTuser {
 			String			choice		=	in.nextLine();
 			TUserDTO		tuser		= null;
 			int				aftcnt      ;
-			String			upid		;
+			//String			upid		;
 			switch (choice) {
 			case	"1": // 회원목록 
 				ArrayList<TUserDTO>	userList	=	getTUserList(); // userList는 길이가 정해지지않은 arraylist이고, 그안에는 TUserDTO type이 들어가는 거임 
